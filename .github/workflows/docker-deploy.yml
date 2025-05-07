@@ -34,9 +34,9 @@ jobs:
         # Docker 이미지를 빌드하고 태그를 지정합니다.
         docker build -t kimseonik/studyfy-app:${{ github.sha }} .
 
-    - name: Log in to Docker Hub
+    - name: Log in to Docker Hub using Access Token
       run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Push Docker image to Docker Hub
       run: |
