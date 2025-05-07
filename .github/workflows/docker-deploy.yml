@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'
-        distribution: 'adoptopenjdk'  # JDK 배포판을 지정합니다.
+        distribution: 'temurin'  # Temurin을 사용하여 JDK 설치
         architecture: x64
 
     - name: Cache Gradle dependencies
