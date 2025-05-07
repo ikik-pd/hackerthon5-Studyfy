@@ -17,9 +17,11 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'
+        distribution: 'adoptopenjdk'  # JDK 배포판을 지정합니다.
+        architecture: x64
 
     - name: Cache Gradle dependencies
-      uses: actions/cache@v3  # 캐시 액션 버전을 v3으로 업데이트
+      uses: actions/cache@v3
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
@@ -31,7 +33,6 @@ jobs:
 
     - name: Build Docker image
       run: |
-        # Docker 이미지를 빌드하고 태그를 지정합니다.
         docker build -t kimseonik/studyfy-app:${{ github.sha }} .
 
     - name: Log in to Docker Hub
@@ -40,7 +41,6 @@ jobs:
 
     - name: Push Docker image to Docker Hub
       run: |
-        # 이미지를 Docker Hub에 푸시합니다.
         docker tag kimseonik/studyfy-app:${{ github.sha }} kimseonik/studyfy-app:latest
         docker push kimseonik/studyfy-app:${{ github.sha }}
         docker push kimseonik/studyfy-app:latest
@@ -51,7 +51,6 @@ jobs:
     steps:
     - name: Deploy to EC2
       run: |
-        # EC2에 Docker 이미지를 배포하는 과정입니다.
         ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
           docker pull kimseonik/studyfy-app:latest
           docker stop studyfy-app || true
