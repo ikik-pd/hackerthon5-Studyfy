@@ -53,14 +53,10 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v2
 
-    - name: Setup SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
-        chmod 600 ~/.ssh/studyfy-server.pem
-        eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/studyfy-server.pem
-
+    - name: Install SSH key
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
     - name: Add EC2 host to known_hosts
       run: ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
