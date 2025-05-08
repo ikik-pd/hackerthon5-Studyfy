@@ -57,8 +57,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
-        source: "docker-compose.yml,.env"
-        target: "/home/ubuntu/apps/server"
+        echo ls
 
     - name: Deploy to EC2
       run: |
