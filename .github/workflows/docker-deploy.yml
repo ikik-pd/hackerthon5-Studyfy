@@ -54,11 +54,11 @@ jobs:
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa.pub
+        chmod 600 ~/.ssh/id_rsa.pub
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
         echo "Host ${{ secrets.EC2_PUBLIC_IP }}" >> ~/.ssh/config
-        echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+        echo "  IdentityFile ~/.ssh/id_rsa.pub" >> ~/.ssh/config
         echo "  User ubuntu" >> ~/.ssh/config
 
     - name: Create .env from secret
@@ -70,7 +70,7 @@ jobs:
         scp -i ~/.ssh/studyfy.pem .env ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
 
     - name: Deploy with Docker Compose
-      run: |
+  ´    run: |
         ssh -i ~/.ssh/studyfy.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
           docker pull kimseonik/studyfy-app:latest
           cd /home/ubuntu/apps/server
