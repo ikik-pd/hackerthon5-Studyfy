@@ -55,7 +55,7 @@ jobs:
 
     - name: Copy files to EC2
       run: |
-        scp -i ~/.ssh/studyfy-server.pem docker-compose.yml .env \
+        scp -i ${{ secrets.EC2_SSH_KEY }} docker-compose.yml .env \
           ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
 
     - name: Deploy on EC2
