@@ -60,9 +60,14 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
         chmod 600 ~/.ssh/studyfy-server.pem
+        ls -la ~/.ssh/
+        cat ~/.ssh/studyfy-server.pem | head -n 1
         eval $(ssh-agent -s)
+        ssh-add -l
         ssh-add ~/.ssh/studyfy-server.pem
+        ssh-add -l
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+        ssh -v -i ~/.ssh/studyfy-server.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} "echo 'SSH connection test'"
 
     - name: Create .env from secret
       run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
