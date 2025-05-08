@@ -1,0 +1,3 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Shin-Dong-Jun/hackerthon5-Studyfy-FE.git
