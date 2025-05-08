@@ -53,7 +53,7 @@ jobs:
       run: |
         # SSH 키 설정
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
+        printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
         chmod 600 ~/.ssh/studyfy-server.pem
         
         # EC2에 Docker 이미지를 배포하는 과정입니다.
