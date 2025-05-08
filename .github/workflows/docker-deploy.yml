@@ -58,7 +58,7 @@ jobs:
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
+        echo -e "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
         chmod 600 ~/.ssh/studyfy-server.pem
         ls -la ~/.ssh/
         cat ~/.ssh/studyfy-server.pem | head -n 1
