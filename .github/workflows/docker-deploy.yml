@@ -55,7 +55,7 @@ jobs:
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy.pem
+        printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy.pem
         chmod 600 ~/.ssh/studyfy.pem
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
 
