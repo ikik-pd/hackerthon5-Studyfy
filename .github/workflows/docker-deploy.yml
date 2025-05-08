@@ -60,6 +60,8 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
         chmod 600 ~/.ssh/studyfy-server.pem
+        eval $(ssh-agent -s)
+        ssh-add ~/.ssh/studyfy-server.pem
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
 
     - name: Create .env from secret
