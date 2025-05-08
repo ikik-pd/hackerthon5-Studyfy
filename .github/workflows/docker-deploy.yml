@@ -56,7 +56,9 @@ jobs:
     - name: Setup SSH key
       run: |
         mkdir -p ~/.ssh
-        printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
+        cat << 'EOF' > ~/.ssh/studyfy-server.pem
+${{ secrets.EC2_SSH_KEY }}
+EOF
         chmod 600 ~/.ssh/studyfy-server.pem
         eval "$(ssh-agent -s)"
         ssh-add ~/.ssh/studyfy-server.pem
