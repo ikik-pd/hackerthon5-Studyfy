@@ -53,6 +53,7 @@ jobs:
       run: |
         # SSH 키 설정
         mkdir -p ~/.ssh   # .ssh 디렉터리 생성
+        echo ${{ secrets.EC2_SSH_KEY }}
         cd ~/.ssh 
         ls -a
         printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem   # PEM 키 파일 생성
