@@ -51,8 +51,13 @@ jobs:
     steps:
     - name: Deploy to EC2
       run: |
+        # SSH 키 설정
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy-server.pem
+        chmod 600 ~/.ssh/studyfy-server.pem
+        
         # EC2에 Docker 이미지를 배포하는 과정입니다.
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/studyfy-server.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
           docker pull kimseonik/studyfy-app:latest
           docker stop studyfy-app || true
           docker rm studyfy-app || true
