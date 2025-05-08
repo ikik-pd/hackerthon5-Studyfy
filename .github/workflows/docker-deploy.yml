@@ -54,11 +54,13 @@ jobs:
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/studyfy.pem
-        chmod 600 ~/.ssh/studyfy.pem
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+        echo "Host ${{ secrets.EC2_PUBLIC_IP }}" >> ~/.ssh/config
+        echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+        echo "  User ubuntu" >> ~/.ssh/config
 
-    
     - name: Create .env from secret
       run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
