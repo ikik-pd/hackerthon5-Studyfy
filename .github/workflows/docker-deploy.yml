@@ -66,12 +66,12 @@ jobs:
 
     - name: Copy docker-compose.yml and .env to EC2
       run: |
-        scp -i ~/.ssh/studyfy.pem docker-compose.yml ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
-        scp -i ~/.ssh/studyfy.pem .env ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
+        scp -i ~/.ssh/studyfy-server.pem docker-compose.yml ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
+        scp -i ~/.ssh/studyfy-server.pem .env ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/apps/server/
 
     - name: Deploy with Docker Compose
   ´    run: |
-        ssh -i ~/.ssh/studyfy.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+        ssh -i ~/.ssh/studyfy-server.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
           docker pull kimseonik/studyfy-app:latest
           cd /home/ubuntu/apps/server
           docker compose --env-file .env down || true
